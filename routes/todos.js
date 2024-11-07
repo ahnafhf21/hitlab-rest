@@ -35,4 +35,23 @@ router.post('/', (req,res) =>{
     todos.push(newTodo);
     res.status(201).json(newTodo);
 })
+
+// PUT (update) item by ID
+router.put('/:id', (req, res) => {
+    const item = todos.find(i => i.id === parseInt(req.params.id));
+    if (!item) return res.status(404).send('Todo not found');
+  
+    item.title = req.body.title;
+    item.description = req.body.description;
+    res.json(item);
+  });
+  
+  // DELETE item by ID
+  router.delete('/:id', (req, res) => {
+    const itemIndex = todos.findIndex(i => i.id === parseInt(req.params.id));
+    if (itemIndex === -1) return res.status(404).send('Todo not found');
+  
+    todos.splice(itemIndex, 1);
+    res.status(204).send();
+  });
 module.exports = router;
